@@ -3,55 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(ObstacleCollision))]
-public class ObstacleRotation : MonoBehaviour
+public class ObstacleRotation : ObstacleMotion
 {
     [SerializeField] private bool _rotateOnX;
     [SerializeField] private bool _rotateOnY;
     [SerializeField] private bool _rotateOnZ;
     [SerializeField] private float _timeToRotate360;
 
-    private Rigidbody _rigidbody;
-    private ObstacleCollision _obstacleCollision;
 
-    private void Awake()
+    private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _obstacleCollision = GetComponent<ObstacleCollision>();
-
-        _obstacleCollision.OnCollisionOccured += StopRotation;
-
-        StartCoroutine(Rotate());
+        StartCoroutine(Move());
     }
 
-    public void StopRotation()
+    protected override IEnumerator Move()
     {
-        _rotateOnX = false;
-        _rotateOnY = false;
-        _rotateOnZ = false;
-    }
+        while (!ShouldMove)
+        {
+            yield return null;
+        }
 
-    private IEnumerator Rotate()
-    {
-        while (_rotateOnX || _rotateOnY || _rotateOnZ)
+        while (ShouldMove)
         {
             var step = 0f;
-            var rotation = _rigidbody.rotation.eulerAngles;
 
             while (step <= 1f)
             {
+                if (!ShouldMove)
+                {
+                    break;
+                }
+
                 step += Time.deltaTime / _timeToRotate360;
-                rotation = new Vector3(_rotateOnX ? 180f : 0f, _rotateOnY ? 180f : 0f, _rotateOnZ ? 180f : 0f) * step;
-                _rigidbody.MoveRotation(Quaternion.Euler(rotation));
+                var rotation = new Vector3(_rotateOnX ? 180f : 0f, _rotateOnY ? 180f : 0f, _rotateOnZ ? 180f : 0f) * step;
+                RotationEuler = rotation;
 
                 yield return null;
             }
         }
     }
 
-    private void OnDestroy()
-    {
-        _obstacleCollision.OnCollisionOccured -= StopRotation;
-    }
 }

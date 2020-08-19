@@ -3,34 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ObstacleCollision))]
-[RequireComponent(typeof(Rigidbody))]
-public class ObstacleLinearMotion : MonoBehaviour
+public class ObstacleLinearMotion : ObstacleMotion
 {
     [SerializeField] private MovementAxis _movementAxis;
     [SerializeField] private float _radius;
     [SerializeField] private float _durationOfOneTurn;
     [SerializeField] private bool _reverseMode;
 
-    private ObstacleCollision _obstacleCollision;
-    private Rigidbody _rigidbody;
-    private bool _shouldMove;
-
     private Vector3 _initialPoint;
     private Vector3 _minPoint;
     private Vector3 _maxPoint;
 
-    private void Awake()
+    private void Start()
     {
-        _obstacleCollision = GetComponent<ObstacleCollision>();
-        _rigidbody = GetComponent<Rigidbody>();
-        _shouldMove = true;
-
-        _obstacleCollision.OnCollisionOccured += StopMotion;
-
         CalculatePoints();
-
-        StartCoroutine(Movement());
+        
+        StartCoroutine(Move());
     }
 
     private void OnDrawGizmos()
@@ -59,7 +47,7 @@ public class ObstacleLinearMotion : MonoBehaviour
 
     private void CalculatePoints()
     {
-        _initialPoint = _rigidbody.position;
+        _initialPoint = Position;
         
         switch (_movementAxis)
         {
@@ -80,25 +68,24 @@ public class ObstacleLinearMotion : MonoBehaviour
         }
     }
 
-    private void StopMotion()
+    protected override IEnumerator Move()
     {
-        _shouldMove = false;
-    }
+        while (!ShouldMove)
+        {
+            yield return null;
+        }
 
-    private IEnumerator Movement()
-    {
         var durationOfOneTurnInverse = 1f / _durationOfOneTurn;
-        var initialPosition = _rigidbody.position;
         var direction = !_reverseMode;
 
-        while (_shouldMove)
+        while (ShouldMove)
         {
             var step = 0f;
-            var position = _rigidbody.position;
+            var position = Position;
 
             while (step < 1f)
             {
-                if (!_shouldMove)
+                if (!ShouldMove)
                 {
                     break;
                 }
@@ -107,12 +94,12 @@ public class ObstacleLinearMotion : MonoBehaviour
 
                 if (direction)
                 {
-                    _rigidbody.transform.position = Vector3.Lerp(position, _maxPoint, step);
+                    Position = Vector3.Lerp(position, _maxPoint, step);
                 }
                 
                 else
                 {
-                    _rigidbody.transform.position = Vector3.Lerp(position, _minPoint, step);
+                    Position = Vector3.Lerp(position, _minPoint, step);
                 }
 
                 yield return null;
@@ -120,10 +107,5 @@ public class ObstacleLinearMotion : MonoBehaviour
 
             direction = !direction;
         }
-    }
-
-    private void OnDestroy()
-    {
-        _obstacleCollision.OnCollisionOccured -= StopMotion;
     }
 }

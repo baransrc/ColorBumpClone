@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ObstacleCollision))]
-[RequireComponent(typeof(Rigidbody))]
-public class ObstacleCircularMotion : MonoBehaviour
+public class ObstacleCircularMotion : ObstacleMotion
 {
     [SerializeField] private MovementAxis _movementAxis;
     [SerializeField] private float _radiusWidth;
@@ -13,20 +11,11 @@ public class ObstacleCircularMotion : MonoBehaviour
     [SerializeField] private float _durationOfOneTurn;
     [SerializeField] private bool _reverseMode;
 
-    private ObstacleCollision _obstacleCollision;
-    private Rigidbody _rigidbody;
     private static float _twoTimesPi = Mathf.PI * 2;
-    private bool _shouldMove;
 
-    private void Awake()
+    private void Start()
     {
-        _obstacleCollision = GetComponent<ObstacleCollision>();
-        _rigidbody = GetComponent<Rigidbody>();
-        _shouldMove = true;
-
-        _obstacleCollision.OnCollisionOccured += StopMotion;
-
-        StartCoroutine(CircularMovement());
+        StartCoroutine(Move());
     }
 
     private void OnDrawGizmos()
@@ -36,30 +25,31 @@ public class ObstacleCircularMotion : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, Mathf.Max(_radiusHeight, _radiusHeight));
     }
 
-    private void StopMotion()
+    protected override IEnumerator Move()
     {
-        _shouldMove = false;
-    }
+        while (!ShouldMove)
+        {
+            yield return null;
+        }
 
-    private IEnumerator CircularMovement()
-    {
         var durationOfOneTurnInverse = 1f / _durationOfOneTurn;
-        var initialPosition = _rigidbody.position;
+        var initialPosition = Position;
 
-        while (_shouldMove)
+        while (ShouldMove)
         {
             var step = 0f;
-            var angle = 0f;
+            
 
             while (step < 1f)
             {
-                if (!_shouldMove)
+                if (!ShouldMove)
                 {
                     break;
                 }
 
                 step += Time.deltaTime * durationOfOneTurnInverse;
-                angle = step * _twoTimesPi;
+                
+                var angle = step * _twoTimesPi;
                 angle = _reverseMode ? -angle : angle;
 
                 var x = 0f;
@@ -82,16 +72,11 @@ public class ObstacleCircularMotion : MonoBehaviour
                         break;
                 }
 
-                _rigidbody.position = initialPosition + new Vector3(x, y, z);
+                Position = initialPosition + new Vector3(x, y, z);
 
                 yield return null;
             }
 
         }
-    }
-
-    private void OnDestroy()
-    {
-        _obstacleCollision.OnCollisionOccured -= StopMotion;
     }
 }
