@@ -3,18 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CircularMovementAxis
-{
-    X,
-    Y,
-    Z
-}
-
 [RequireComponent(typeof(ObstacleCollision))]
 [RequireComponent(typeof(Rigidbody))]
 public class ObstacleCircularMotion : MonoBehaviour
 {
-    [SerializeField] private CircularMovementAxis _movementAxis;
+    [SerializeField] private MovementAxis _movementAxis;
     [SerializeField] private float _radiusWidth;
     [SerializeField] private float _radiusHeight;
     [SerializeField] private float _durationOfOneTurn;
@@ -68,15 +61,15 @@ public class ObstacleCircularMotion : MonoBehaviour
 
                 switch (_movementAxis)
                 {
-                    case CircularMovementAxis.X:
+                    case MovementAxis.X:
                         z += Mathf.Cos(angle) * _radiusWidth;
                         y += Mathf.Sin(angle) * _radiusHeight;
                         break;
-                    case CircularMovementAxis.Y:
+                    case MovementAxis.Y:
                         x += Mathf.Cos(angle) * _radiusWidth;
                         z += Mathf.Sin(angle) * _radiusHeight;
                         break;
-                    case CircularMovementAxis.Z:
+                    case MovementAxis.Z:
                         x += Mathf.Cos(angle) * _radiusWidth;
                         y += Mathf.Sin(angle) * _radiusHeight;
                         break;
