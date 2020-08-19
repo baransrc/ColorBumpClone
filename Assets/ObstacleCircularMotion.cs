@@ -29,6 +29,13 @@ public class ObstacleCircularMotion : MonoBehaviour
         StartCoroutine(CircularMovement());
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawWireSphere(transform.position, Mathf.Max(_radiusHeight, _radiusHeight));
+    }
+
     private void StopMotion()
     {
         _shouldMove = false;
