@@ -8,11 +8,16 @@ public class MaterialChanger : MonoBehaviour
     [SerializeField] private Material _materialToChangeFrom;
     [SerializeField] private Material _materialToChangeTo;
 
+    [SerializeField] Renderer _materialToChangeFromIndicator;
+    [SerializeField] Renderer _materialToChangeToIndicator;
+
     private Collider _collider;
 
     private void Awake()
     {
         _collider = GetComponent<Collider>();
+        _materialToChangeFromIndicator.sharedMaterial = _materialToChangeFrom;
+        _materialToChangeToIndicator.sharedMaterial = _materialToChangeTo;
     }
 
     private void ChangeMaterial(Collider other)

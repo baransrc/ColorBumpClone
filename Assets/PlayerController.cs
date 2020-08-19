@@ -78,12 +78,12 @@ public class PlayerController : MonoBehaviour
 
         if (currentPosition.x > _xUpperBound)
         {
-            _rigidbody.position = new Vector3(_xUpperBound, currentPosition.y, currentPosition.z);
+            _rigidbody.MovePosition(new Vector3(_xUpperBound, currentPosition.y, currentPosition.z));
         }
 
         else if (currentPosition.x < _xLowerBound)
         {
-            _rigidbody.position = new Vector3(_xLowerBound, currentPosition.y, currentPosition.z);
+            _rigidbody.MovePosition(new Vector3(_xLowerBound, currentPosition.y, currentPosition.z));
         }
     }
 
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
         if (position.z - mainCameraPosition.z < 5f)
         {
-            _rigidbody.position = new Vector3(position.x, position.y, mainCameraPosition.z + 5f);
+            _rigidbody.MovePosition(new Vector3(position.x, position.y, mainCameraPosition.z + 5f));
         }
     }
 

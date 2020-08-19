@@ -61,6 +61,8 @@ public abstract class ObstacleMotion : MonoBehaviour
         {
             ShouldMove = IsVisible();
 
+            ApplyRigidbodyConstraints(!ShouldMove, !ShouldMove);
+
             yield return null;
         }
 
@@ -77,6 +79,14 @@ public abstract class ObstacleMotion : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void ApplyRigidbodyConstraints(bool fixRotation, bool fixPosition)
+    {
+        var bitField = fixRotation ? RigidbodyConstraints.FreezePosition : 0;
+        bitField = fixPosition ? bitField | RigidbodyConstraints.FreezeRotation : bitField;
+
+        _rigidbody.constraints = bitField;
     }
 
     private void StopMotion()
