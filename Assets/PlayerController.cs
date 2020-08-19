@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector3 _startPos;
     private bool _shouldMove;
+    private Camera _mainCamera;
 
     [SerializeField] private float _xLowerBound;
     [SerializeField] private float _xUpperBound;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private void InitializeFields()
     {
         _shouldMove = true;
+        _mainCamera = Camera.main;
         _renderer = GetComponent<Renderer>();
         _collider = GetComponent<SphereCollider>();
         _rigidbody = GetComponent<Rigidbody>();
@@ -61,39 +63,50 @@ public class PlayerController : MonoBehaviour
 
         if (!_touchMovementDetector.IsTouchRegistered())
         {
-            _startPos = transform.position;
+            _startPos = _rigidbody.position;
             return;
         }
 
         var movementDelta = _touchMovementDetector.GetMovementDelta();
         var newPosition = new Vector3(_startPos.x + movementDelta.x,
-                                      transform.position.y,
+                                      _rigidbody.position.y,
                                       _startPos.z + movementDelta.z);
 
-        transform.position = newPosition;
+        _rigidbody.position = newPosition;
 
-        var currentPosition = transform.position;
+        var currentPosition = _rigidbody.position;
 
         if (currentPosition.x > _xUpperBound)
         {
-            transform.position = new Vector3(_xUpperBound, currentPosition.y, currentPosition.z);
+            _rigidbody.position = new Vector3(_xUpperBound, currentPosition.y, currentPosition.z);
         }
 
         else if (currentPosition.x < _xLowerBound)
         {
-            transform.position = new Vector3(_xLowerBound, currentPosition.y, currentPosition.z);
+            _rigidbody.position = new Vector3(_xLowerBound, currentPosition.y, currentPosition.z);
+        }
+    }
+
+    private void ClampPlayerWrtCamera()
+    {
+        var position = _rigidbody.position;
+        var mainCameraPosition = _mainCamera.transform.position;
+
+        if (position.z - mainCameraPosition.z < 5f)
+        {
+            _rigidbody.position = new Vector3(position.x, position.y, mainCameraPosition.z + 5f);
         }
     }
 
     private void ApplyVelocity()
     {
-
         _rigidbody.velocity = _shouldMove ? _velocity : Vector3.zero;
     }
 
-    private void Update()   
+    private void FixedUpdate()   
     {
         Move();
+        ClampPlayerWrtCamera();
         ApplyVelocity();
     }
 }
