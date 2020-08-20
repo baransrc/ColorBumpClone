@@ -6,6 +6,7 @@ using UnityEngine;
 public class FinishLevelManager : MonoBehaviour
 {
     [SerializeField] private float _slowMotionDuration;
+    [SerializeField] private LevelManager _levelManager;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,10 +18,10 @@ public class FinishLevelManager : MonoBehaviour
 
     private IEnumerator FinishLevel()
     {
-        Time.timeScale = 0.5f;
+        Time.timeScale = 0.1f;
 
         yield return new WaitForSeconds(_slowMotionDuration);
 
-        Debug.Log("Level Ended!");
+        _levelManager.ShowWinModal();
     }
 }

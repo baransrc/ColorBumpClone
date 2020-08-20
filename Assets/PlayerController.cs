@@ -24,10 +24,12 @@ public class PlayerController : MonoBehaviour
     private Material _materialBeforeShrink;
     private Coroutine _shrinkGrowCoroutine;
 
+    [SerializeField] private float _slowMotionDuration;
     [SerializeField] private float _xLowerBound;
     [SerializeField] private float _xUpperBound;
     [SerializeField] private Vector3 _velocity;
     [SerializeField] private LevelColors _levelColors;
+    [SerializeField] private LevelManager _levelManager;
 
     private void Awake()
     {
@@ -56,8 +58,22 @@ public class PlayerController : MonoBehaviour
 
         if (otherRenderer.sharedMaterial != _renderer.sharedMaterial)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Lose();
         }
+    }
+
+    private IEnumerator LoseLevelCoroutine()
+    {
+        Time.timeScale = 0.3f;
+
+        yield return new WaitForSeconds(_slowMotionDuration);
+
+        _levelManager.ShowLoseModal();
+    }
+
+    private void Lose()
+    {
+        StartCoroutine(LoseLevelCoroutine());
     }
 
     private void Move()

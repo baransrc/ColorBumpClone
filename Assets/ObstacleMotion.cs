@@ -36,7 +36,6 @@ public abstract class ObstacleMotion : MonoBehaviour
     private ObstacleCollision _obstacleCollision;
     private Camera _camera;
     private Collider _collider;
-
     private bool _collisionOccured;
     
 

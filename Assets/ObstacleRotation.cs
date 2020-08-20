@@ -9,6 +9,7 @@ public class ObstacleRotation : ObstacleMotion
     [SerializeField] private bool _rotateOnY;
     [SerializeField] private bool _rotateOnZ;
     [SerializeField] private float _timeToRotate360;
+    [SerializeField] private bool _isReverse;
 
 
     private void Start()
@@ -36,7 +37,7 @@ public class ObstacleRotation : ObstacleMotion
 
                 step += Time.deltaTime / _timeToRotate360;
                 var rotation = new Vector3(_rotateOnX ? 180f : 0f, _rotateOnY ? 180f : 0f, _rotateOnZ ? 180f : 0f) * step;
-                RotationEuler = rotation;
+                RotationEuler = !_isReverse ? rotation : -rotation;
 
                 yield return null;
             }
