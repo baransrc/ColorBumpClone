@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(TrailRenderer))]
 [RequireComponent(typeof(Renderer))]
 [RequireComponent(typeof(IMovementDetector))]
 [RequireComponent(typeof(Collider))]
@@ -12,12 +13,16 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     private IMovementDetector _touchMovementDetector;
+    private TrailRenderer _trailRenderer;
     private Collider _collider;
     private Renderer _renderer;
     private Rigidbody _rigidbody;
     private Vector3 _startPos;
     private bool _shouldMove;
     private Camera _mainCamera;
+
+    private Material _materialBeforeShrink;
+    private Coroutine _shrinkGrowCoroutine;
 
     [SerializeField] private float _xLowerBound;
     [SerializeField] private float _xUpperBound;
@@ -33,6 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         _shouldMove = true;
         _mainCamera = Camera.main;
+        _trailRenderer = GetComponent<TrailRenderer>();
         _renderer = GetComponent<Renderer>();
         _collider = GetComponent<SphereCollider>();
         _rigidbody = GetComponent<Rigidbody>();
@@ -85,6 +91,49 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.MovePosition(new Vector3(_xLowerBound, currentPosition.y, currentPosition.z));
         }
+    }
+
+    public void Shrink(float duration)
+    {
+        _materialBeforeShrink = _renderer.sharedMaterial;
+        _renderer.sharedMaterial = _levelColors.TerinaryMaterial;
+
+        if (_shrinkGrowCoroutine != null)
+        {
+            StopCoroutine(_shrinkGrowCoroutine);
+        }
+
+        _shrinkGrowCoroutine = StartCoroutine(ScalePlayerCoroutine(0.5f, duration));
+    }
+
+    public void Grow(float duration)
+    {
+        _renderer.sharedMaterial = _materialBeforeShrink;
+
+        if (_shrinkGrowCoroutine != null)
+        {
+            StopCoroutine(_shrinkGrowCoroutine);
+        }
+
+        _shrinkGrowCoroutine = StartCoroutine(ScalePlayerCoroutine(1f, duration));
+    }
+
+    private IEnumerator ScalePlayerCoroutine(float scale, float duration)
+    {
+        var scaleTarget = Vector3.one * scale;
+        var step = 0f;
+        var durationInverse = 1f / duration;
+
+        while (step < 1f)
+        {
+            step += durationInverse * Time.deltaTime;
+
+            transform.localScale = Vector3.Lerp(transform.localScale, scaleTarget, durationInverse);
+
+            yield return null;
+        }
+
+        transform.localScale = scaleTarget;
     }
 
     private void ClampPlayerWrtCamera()

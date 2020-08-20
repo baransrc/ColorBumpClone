@@ -6,9 +6,12 @@ public class LevelColors : MonoBehaviour
 {
     [SerializeField] private Color _primaryColor;
     [SerializeField] private Color _secondaryColor;
+    [SerializeField] private Color _terinaryColor;
     [SerializeField] private Color _groundColor;
+    
     [SerializeField] private Material _primaryMaterial;
     [SerializeField] private Material _secondaryMaterial;
+    [SerializeField] private Material _terinaryMaterial;
     [SerializeField] private Material _groundMaterial;
 
     public Color GroundColor
@@ -35,6 +38,14 @@ public class LevelColors : MonoBehaviour
         }
     }
 
+    public Color TerinaryColor
+    {
+        get
+        {
+            return _terinaryColor;
+        }
+    }
+
     public Material PrimaryMaterial
     {
         get
@@ -48,6 +59,14 @@ public class LevelColors : MonoBehaviour
         get
         {
             return _secondaryMaterial;
+        }
+    }
+
+    public Material TerinaryMaterial
+    {
+        get
+        {
+            return _terinaryMaterial;
         }
     }
 
@@ -65,5 +84,6 @@ public class LevelColors : MonoBehaviour
         _primaryMaterial.color = PrimaryColor;
         _secondaryMaterial.color = SecondaryColor;
         _groundMaterial.color = GroundColor;
+        _terinaryMaterial.color = TerinaryColor;
     }
 }
