@@ -24,12 +24,12 @@ public class PlayerController : MonoBehaviour
     private Material _materialBeforeShrink;
     private Coroutine _shrinkGrowCoroutine;
 
-    [SerializeField] private float _slowMotionDuration;
-    [SerializeField] private float _xLowerBound;
-    [SerializeField] private float _xUpperBound;
-    [SerializeField] private Vector3 _velocity;
-    [SerializeField] private LevelColors _levelColors;
-    [SerializeField] private LevelManager _levelManager;
+    [SerializeField] private float _slowMotionDuration = 1f;
+    [SerializeField] private float _xLowerBound = 1f;
+    [SerializeField] private float _xUpperBound = 1f;
+    [SerializeField] private Vector3 _velocity = Vector3.one;
+    [SerializeField] private LevelColors _levelColors = null;
+    [SerializeField] private LevelManager _levelManager = null;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         _mainCamera = Camera.main;
         _trailRenderer = GetComponent<TrailRenderer>();
         _renderer = GetComponent<Renderer>();
-        _collider = GetComponent<SphereCollider>();
+        _collider = GetComponent<Collider>();
         _rigidbody = GetComponent<Rigidbody>();
         _touchMovementDetector = GetComponent<IMovementDetector>();
     }

@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class ObstacleLinearMotion : ObstacleMotion
 {
-    [SerializeField] private MovementAxis _movementAxis;
-    [SerializeField] private float _radius;
-    [SerializeField] private float _durationOfOneTurn;
-    [SerializeField] private bool _reverseMode;
+    [SerializeField] private MovementAxis _movementAxis = MovementAxis.X;
+    [SerializeField] private float _radius = 1f;
+    [SerializeField] private float _durationOfOneTurn = 1f;
+    [SerializeField] private bool _reverseMode = false;
 
     private Vector3 _initialPoint;
     private Vector3 _minPoint;

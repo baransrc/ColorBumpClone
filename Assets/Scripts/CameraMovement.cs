@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _referenceRigidbody;
+    [SerializeField] private Rigidbody _referenceRigidbody = null;
     private Rigidbody _rigidbody;
 
     private void Awake()

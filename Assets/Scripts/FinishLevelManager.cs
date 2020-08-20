@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class FinishLevelManager : MonoBehaviour
 {
-    [SerializeField] private float _slowMotionDuration;
-    [SerializeField] private LevelManager _levelManager;
+    [SerializeField] private float _slowMotionDuration = 1f;
+    [SerializeField] private LevelManager _levelManager = null;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Tag.Player)
         {
             StartCoroutine(FinishLevel());
         }

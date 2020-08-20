@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class LevelColors : MonoBehaviour
 {
-    [SerializeField] private Color _primaryColor;
-    [SerializeField] private Color _secondaryColor;
-    [SerializeField] private Color _terinaryColor;
-    [SerializeField] private Color _groundColor;
-    
-    [SerializeField] private Material _primaryMaterial;
-    [SerializeField] private Material _secondaryMaterial;
-    [SerializeField] private Material _terinaryMaterial;
-    [SerializeField] private Material _groundMaterial;
+    [SerializeField] private Color _primaryColor = new Color();
+    [SerializeField] private Color _secondaryColor = new Color();
+    [SerializeField] private Color _terinaryColor = new Color();
+    [SerializeField] private Color _groundColor = new Color();
+
+    [SerializeField] private Material _primaryMaterial = null;
+    [SerializeField] private Material _secondaryMaterial = null;
+    [SerializeField] private Material _terinaryMaterial = null;
+    [SerializeField] private Material _groundMaterial = null;
 
     public Color GroundColor
     {

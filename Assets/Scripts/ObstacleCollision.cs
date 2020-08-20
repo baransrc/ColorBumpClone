@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class ObstacleCollision : MonoBehaviour
 {
-    private Collider _collider;
+    private Collider _collider = null;
 
     public delegate void CollisionHandler();
     public event CollisionHandler OnCollisionOccured;
@@ -17,7 +17,7 @@ public class ObstacleCollision : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Ground")
+        if (collision.gameObject.tag != Tag.Ground)
         {
             OnCollisionOccured?.Invoke();
         }

@@ -5,11 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class MaterialChanger : MonoBehaviour
 {
-    [SerializeField] private Material _materialToChangeFrom;
-    [SerializeField] private Material _materialToChangeTo;
+    [SerializeField] private Material _materialToChangeFrom = null;
+    [SerializeField] private Material _materialToChangeTo = null;
 
-    [SerializeField] Renderer _materialToChangeFromIndicator;
-    [SerializeField] Renderer _materialToChangeToIndicator;
+    [SerializeField] Renderer _materialToChangeFromIndicator = null;
+    [SerializeField] Renderer _materialToChangeToIndicator = null;
 
     private Collider _collider;
 
@@ -32,7 +32,7 @@ public class MaterialChanger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == Tag.Player)
         {
             return;
         }
@@ -42,7 +42,7 @@ public class MaterialChanger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Obstacle")
+        if (other.tag == Tag.Obstacle)
         {
             return;
         }

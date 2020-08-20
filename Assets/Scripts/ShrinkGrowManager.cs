@@ -10,8 +10,8 @@ public class ShrinkGrowManager : MonoBehaviour
     private bool _isBig = true;
     private TextMeshProUGUI _text;
 
-    [SerializeField] private List<PlayerController> _playerControllers;
-    [SerializeField] private float _duration;
+    [SerializeField] private List<PlayerController> _playerControllers = new List<PlayerController>();
+    [SerializeField] private float _duration = 1f;
 
     private void Awake()
     {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GameObjectFollower : MonoBehaviour
 {
-    [SerializeField] private Transform _target;
-    [SerializeField] private float _smoothingAmount;
-    [SerializeField] private bool _followX;
-    [SerializeField] private bool _followY;
-    [SerializeField] private bool _followZ;
+    [SerializeField] private Transform _target = null;
+    [SerializeField] private float _smoothingAmount = 1f;
+    [SerializeField] private bool _followX = false;
+    [SerializeField] private bool _followY = false;
+    [SerializeField] private bool _followZ = false;
 
     private Vector3 _offset;
     private Vector3 _initialPosition;

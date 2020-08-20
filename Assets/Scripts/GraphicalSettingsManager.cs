@@ -6,12 +6,8 @@ public class GraphicalSettingsManager : MonoBehaviour
 {
     [SerializeField] private bool _overrideResolution = false;
     [SerializeField] private int _mobileFrameRate = 60;
-    [SerializeField] private int _webFrameRate = 60;
-    [SerializeField] private int _pcFrameRate = 60;
     [SerializeField] private int _editorFrameRate = 60;
     [SerializeField] private Vector2Int _mobileResolution = new Vector2Int(1280, 720);
-    [SerializeField] private Vector2Int _webResolution = new Vector2Int(1920, 1080);
-    [SerializeField] private Vector2Int _pcResolution = new Vector2Int(1920, 1080);
     [SerializeField] private Vector2Int _editorResolution = new Vector2Int(1920, 1080);
 
     private void Awake()
@@ -93,7 +89,6 @@ public class GraphicalSettingsManager : MonoBehaviour
         var frameRate = 60;
         var resolution = new Vector2Int(1920, 1080);
         var aspectRatio = GetAspectRatio();
-        Debug.Log(aspectRatio);
         var multiplier = resolution.x / aspectRatio.x;
 
 #if UNITY_ANDROID || UNITY_IOS
@@ -105,18 +100,6 @@ public class GraphicalSettingsManager : MonoBehaviour
 #if UNITY_EDITOR
         frameRate = _editorFrameRate;
         multiplier = _editorResolution.x / aspectRatio.x;
-        resolution = multiplier * aspectRatio;
-#endif
-
-#if UNITY_WEBGL
-        frameRate = _webFrameRate;
-        multiplier = _webResolution.x / aspectRatio.x;
-        resolution = multiplier * aspectRatio;
-#endif
-
-#if UNITY_STANDALONE
-        frameRate = _pcFrameRate;
-        multiplier = _pcResolution.x / aspectRatio.x;
         resolution = multiplier * aspectRatio;
 #endif
 

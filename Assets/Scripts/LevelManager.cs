@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] string _nameOfNextLevel;
-    [SerializeField] CanvasGroup _loseModal;
-    [SerializeField] CanvasGroup _winModal;
-    [SerializeField] GameObject _loseGo;
-    [SerializeField] GameObject _winGo;
-    [SerializeField] float _showDuration;
+    [SerializeField] string _nameOfNextLevel = "";
+    [SerializeField] CanvasGroup _loseModal = null;
+    [SerializeField] CanvasGroup _winModal = null;
+    [SerializeField] GameObject _loseGo = null;
+    [SerializeField] GameObject _winGo = null;
+    [SerializeField] float _showDuration = 1f;
 
     private string _nameOfCurrentLevel;
 

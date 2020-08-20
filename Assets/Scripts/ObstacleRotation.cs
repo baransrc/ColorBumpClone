@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class ObstacleRotation : ObstacleMotion
 {
-    [SerializeField] private bool _rotateOnX;
-    [SerializeField] private bool _rotateOnY;
-    [SerializeField] private bool _rotateOnZ;
-    [SerializeField] private float _timeToRotate360;
-    [SerializeField] private bool _isReverse;
+    [SerializeField] private bool _rotateOnX = false;
+    [SerializeField] private bool _rotateOnY = false;
+    [SerializeField] private bool _rotateOnZ = false;
+    [SerializeField] private float _timeToRotate360 = 1f;
+    [SerializeField] private bool _isReverse = false;
 
 
     private void Start()

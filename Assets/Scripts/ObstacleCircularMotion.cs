@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class ObstacleCircularMotion : ObstacleMotion
 {
-    [SerializeField] private MovementAxis _movementAxis;
-    [SerializeField] private float _radiusWidth;
-    [SerializeField] private float _radiusHeight;
-    [SerializeField] private float _durationOfOneTurn;
-    [SerializeField] private bool _reverseMode;
+    [SerializeField] private MovementAxis _movementAxis = MovementAxis.X;
+    [SerializeField] private float _radiusWidth = 1f;
+    [SerializeField] private float _radiusHeight = 1f;
+    [SerializeField] private float _durationOfOneTurn = 1f;
+    [SerializeField] private bool _reverseMode = false;
 
     private static float _twoTimesPi = Mathf.PI * 2;
 
